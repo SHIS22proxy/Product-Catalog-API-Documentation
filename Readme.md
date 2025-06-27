@@ -95,3 +95,123 @@ json
   "message": "Product created successfully"
 }
 ```
+#### 2. Retrieve Products (GET)
+http
+Copy
+Edit
+GET /api/products?page=1&limit=10
+Response:
+
+json
+```
+{
+  "total": 100,
+  "page": 1,
+  "limit": 10,
+  "products": [
+    {
+      "id": "1a2b3c",
+      "name": "Wireless Mouse",
+      "price": 29.99
+    }
+  ]
+}
+```
+#### 3. Update a Product (PUT)
+http
+```
+PUT /api/products/1a2b3c
+Request Body:
+```
+json
+```
+{
+  "price": 24.99,
+  "in_stock": false
+}
+```
+
+#### 4. Delete a Product (DELETE)
+http
+```
+DELETE /api/products/1a2b3c
+```
+
+### 4.3 Search & Filtering
+http
+```
+GET /api/products?category=Accessories&min_price=10&max_price=50
+```
+
+## 5. Best Practices
+Use Versioning: e.g., /api/v1/products to manage backward compatibility.
+
+Paginate Responses: Prevent overload with large datasets.
+
+Validate Input: Prevent SQL injection and data corruption.
+
+Use Descriptive Status Codes:
+
+200 OK
+
+201 Created
+
+400 Bad Request
+
+404 Not Found
+
+500 Server Error
+
+Cache Frequently Accessed Data: e.g., Redis or CDN layer.
+
+Secure Endpoints: Always use HTTPS, implement role-based access control.
+
+6. Common Issues & Troubleshooting
+Issue	Cause	Solution
+401 Unauthorized	Missing or invalid token	Check authentication headers
+400 Bad Request	Invalid or incomplete input	Validate JSON request body
+404 Not Found	Invalid product ID	Ensure the ID exists in the system
+500 Internal Server Error	Server crash, DB errors	Check logs, retry, escalate if persistent
+
+7. References
+RESTful API Design Guidelines
+
+JSON Schema Validator
+
+JWT Introduction
+
+PostgreSQL Documentation
+
+8. Appendix
+Sample Product Schema
+json
+```
+{
+  "id": "string",
+  "name": "string",
+  "sku": "string",
+  "description": "string",
+  "category": "string",
+  "price": "float",
+  "currency": "string",
+  "in_stock": "boolean",
+  "created_at": "ISODate",
+  "updated_at": "ISODate"
+}
+```
+Sample Shell Commands
+bash
+
+```
+# Fetch all products
+curl -H "Authorization: Bearer <token>" https://api.example.com/v1/products
+Mermaid Flow: Create Product
+```
+mermaid
+```
+sequenceDiagram
+    Client ->> API: POST /api/products
+    API ->> Database: Insert product
+    Database -->> API: Success response
+    API -->> Client: 201 Created
+```    
